@@ -35,6 +35,8 @@ class Model(Estimator, ABC):
         return self._predict(dataset)
 
     @abstractmethod
+
+
     def _predict(self, dataset):
         """
         Predict the target values of the dataset.
@@ -50,6 +52,30 @@ class Model(Estimator, ABC):
         predictions: np.ndarray
             The predicted target values.
         """
+
+    def _score(self, dataset):
+            """
+            Calculate the score of the model on the dataset.
+    
+            Parameters
+            ----------
+            dataset: Dataset
+                The dataset to score the model on.
+    
+            Returns
+            -------
+            score: float
+                The score of the model.
+            """
+    
+    def score(self, dataset):
+            """
+            Score the model on the dataset.
+            The model needs to be fitted before calling this method.
+            """
+            if not self.is_fitted:
+                raise ValueError('Model needs to be fitted before calling score()')
+            return self._score(dataset)
 
     def fit_predict(self, dataset):
         """
