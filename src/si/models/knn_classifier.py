@@ -4,6 +4,9 @@ from si.base.model import Model
 from si.metrics import accuracy
 
 
+def distance(x, y):
+    return np.sqrt(np.sum((x - y) ** 2))
+
 class KNNClassifier(Model):
 
     def __init__(self, k=3, distance=None, **kwargs):
@@ -38,12 +41,10 @@ class KNNClassifier(Model):
             )
 
             prediction = classes[np.argmax(counts)]
-
             predictions.append(prediction)
 
         return np.array(predictions)
 
     def _score(self, dataset):
         y_pred = self._predict(dataset)
-    
         return accuracy(dataset.y, y_pred)
