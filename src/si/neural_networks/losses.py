@@ -45,3 +45,25 @@ class BinaryCrossEntropy(LossFunction):
             (y_pred - y_true) /
             (y_pred * (1 - y_pred))
         )
+
+
+class CategoricalCrossEntropy(LossFunction):
+
+    def loss(self, y_true, y_pred):
+
+        # Avoid log(0)
+        y_pred = np.clip(y_pred, 1e-15, 1 - 1e-15)
+
+        # Calculate categorical cross-entropy
+        return -np.mean(
+            np.sum(y_true * np.log(y_pred), axis=1)
+        )
+
+    def derivative(self, y_true, y_pred):
+
+        # Avoid division by zero
+        y_pred = np.clip(y_pred, 1e-15, 1 - 1e-15)
+
+        n = y_true.shape[0]
+
+        return -y_true / y_pred / n
